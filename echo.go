@@ -45,7 +45,9 @@ func WrapContext(ctx context.Context) context.Context {
 }
 
 func LogFlush(ctx context.Context) {
-	GetLogger(ctx).Flush()
+	objLogger := GetLogger(ctx)
+	objLogger.Flush()
+	logger.PutLogger(objLogger)
 }
 
 func Success(ctx echo.Context, data interface{}) error {
