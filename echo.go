@@ -29,7 +29,7 @@ func IsAsync(ctx echo.Context) bool {
 // WrapContext 返回一个 context.Context 实例
 func WrapEchoContext(ctx echo.Context) context.Context {
 	requestId := ctx.Get("request_id")
-	return context.WithValue(ctx.NetContext(), "request_id", requestId)
+	return context.WithValue(ctx.Context(), "request_id", requestId)
 }
 
 // WrapContext 返回一个 context.Context 实例。如果 ctx == nil，需要确保 调用 logger.PutLogger()
@@ -70,7 +70,7 @@ func Success(ctx echo.Context, data interface{}) error {
 	}(b)
 
 	if ctx.Response().Committed() {
-		LogFlush(ctx.NetContext())
+		LogFlush(ctx.Context())
 		return nil
 	}
 
@@ -79,7 +79,7 @@ func Success(ctx echo.Context, data interface{}) error {
 
 func Fail(ctx echo.Context, code int, msg string) error {
 	if ctx.Response().Committed() {
-		LogFlush(ctx.NetContext())
+		LogFlush(ctx.Context())
 		return nil
 	}
 
